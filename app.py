@@ -11,15 +11,13 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# Initialize session state
+# Initialize session state — use only real ingested data (no sample students)
 if "students" not in st.session_state:
     from pathlib import Path
     from utils.io import load_json
     data_dir = Path(__file__).parent / "data"
     data_path = data_dir / "students_data.json"
-    if not data_path.exists():
-        data_path = data_dir / "sample_students.json"
-    st.session_state.students = load_json(data_path)
+    st.session_state.students = load_json(data_path) if data_path.exists() else []
 if "selected_student_id" not in st.session_state:
     st.session_state.selected_student_id = None
 if "parsed_reports" not in st.session_state:
