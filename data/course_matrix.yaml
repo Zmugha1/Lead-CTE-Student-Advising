@@ -1,0 +1,120 @@
+# BS CTET Course Offerings Matrix
+# Asynchronous online unless otherwise noted.
+# Availability by academic year — used for planning engine.
+#
+# SPECIAL RULE: CTE 360/560 term shift
+# - AY 2026-2027: Fall + Summer
+# - AY 2027-2028+: Spring + Summer (Fall offering moves to Spring)
+
+academic_year_logic:
+  cte_360_560_special:
+    # Academic Year 2026-2027: Fall + Summer
+    "2026-2027":
+      fall: true
+      spring: false
+      summer: true
+      winterm: false
+    # Academic Year 2027-2028 and beyond: Spring + Summer
+    "2027-2028":
+      fall: false
+      spring: true
+      summer: true
+      winterm: false
+    "2028-2029":
+      fall: false
+      spring: true
+      summer: true
+      winterm: false
+    default_future: "2027-2028"  # Apply 2027-2028 pattern to any future year
+
+courses:
+  # Core / Major Studies
+  CTE-302:
+    credits: 2
+    terms: [fall]
+    session: A
+    weeks: 8
+    notes: "Fall (A, 8-week)"
+  CTE-405:
+    credits: 3
+    terms: [fall]
+    session: A
+    weeks: 8
+    notes: "Fall (A, 8-week)"
+  CTE-350:
+    credits: 3
+    terms: [fall]
+    session: A
+    weeks: 8
+    notes: "Fall (A, 8-week)"
+  CTE-442:
+    credits: 3
+    terms: [spring]
+    session: A
+    weeks: 8
+    notes: "Spring (A, 8-week)"
+  EDUC-403:
+    credits: 3
+    terms: [spring]
+    session: A
+    weeks: 8
+    notes: "Spring (A, 8-week)"
+  CTE-360:
+    credits: 3
+    terms: [summer]
+    session: A
+    weeks: 8
+    special_rule: cte_360_560_special
+    notes: "Summer always; Fall AY 2026-2027; Spring AY 2027-2028+"
+  CTE-560:
+    credits: 3
+    terms: [summer]
+    session: A
+    weeks: 8
+    special_rule: cte_360_560_special
+    notes: "Same as CTE-360; graduate level"
+
+  # Training & HR Development
+  CTE-334:
+    credits: 3
+    terms: [fall]
+    session: A
+    weeks: 8
+    notes: "Fall (A, 8-week)"
+  CTE-370:
+    credits: 3
+    terms: [summer]
+    session: A
+    weeks: 8
+    notes: "Summer (A, 8-week)"
+  TRHRD-360:
+    credits: 3
+    terms: [fall, spring]
+    session: A
+    weeks: 8
+    notes: "Fall AND Spring"
+  INMGT-400:
+    credits: 3
+    terms: [fall, spring, summer]
+    session: A
+    weeks: 8
+    notes: "Fall AND Spring AND Summer (A, 8-week)"
+  PSYC-382:
+    credits: 3
+    terms: [fall]
+    session: A
+    weeks: 8
+    notes: "Fall"
+
+  # Field Experience
+  CTE-408:
+    credits: 4
+    terms: [fall, spring, summer]
+    session: "to_be_arranged"
+    weeks: 8
+    notes: "Capstone; To be arranged; Fall/Spring/Summer as needed"
+  TRHRD-389:
+    credits: "1-4"
+    terms: [fall, spring, summer]
+    session: "to_be_arranged"
+    notes: "Internship; To be arranged"

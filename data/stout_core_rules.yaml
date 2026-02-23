@@ -1,0 +1,50 @@
+# Stout Core Rules (2023+ plan)
+# Total: 40 credits + RES (2 courses) + GLP (2 courses)
+# RES/GLP may be outside categories; RES-only/GLP-only do not add to 40 credits.
+
+total_credits: 40
+
+categories:
+  COMSK:  # Communication Skills
+    credits: 9
+    required_courses:
+      - ENGL-101
+      - ENGL-102
+      - COMST-100
+    description: "ENGL 101, ENGL 102, COMST 100"
+  ARNS:   # Arts, Natural Sciences, Mathematics
+    credits: 10
+    requirements:
+      - at_least_one_math_stat: true
+      - at_least_one_natural_science_lab: true
+    description: "At least 1 Math/Stat AND at least 1 Natural Science with lab"
+    exclude_developmental: ["MATH-90", "Intermediate Algebra"]
+  ARHUM:  # Arts and Humanities
+    credits: 6
+    description: "6 credits"
+  SBSC:   # Social and Behavioral Sciences
+    credits: 6
+    description: "6 credits"
+  SRER:   # Sustainability, Respect, and Resilience
+    credits: 3
+    description: "3 credits"
+  electives:
+    credits: 6
+    description: "Can be from any Stout Core category, Supporting Health & Wellbeing, or Exploring Outside the Major"
+
+RES:
+  count: 2
+  description: "2 courses with RES designation"
+  may_be_outside_core: true
+  adds_to_40: false
+
+GLP:
+  count: 2
+  description: "2 courses with GLP designation"
+  may_be_outside_core: true
+  adds_to_40: false
+
+constraints:
+  - "A single course cannot meet BOTH a Stout Core category requirement and a major requirement"
+  - "Do NOT count developmental/pre-college math (e.g., MATH 90, Intermediate Algebra) toward ARNS"
+  - "Course can count for minor/certificate while meeting Stout Core"

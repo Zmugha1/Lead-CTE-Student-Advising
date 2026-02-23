@@ -1,0 +1,28 @@
+[
+  {
+    "id": "sample-001",
+    "name": "Sample Student One",
+    "plan_year": "2023",
+    "major": "BS CTET",
+    "credits_earned": 45,
+    "credits_in_progress": 6,
+    "credits_planned": 0,
+    "pacing": "full",
+    "accelerated_pathway": false,
+    "stellic_report_ingested": false,
+    "notes": "Sample record for testing"
+  },
+  {
+    "id": "sample-002",
+    "name": "Sample Student Two",
+    "plan_year": "2022",
+    "major": "BS CTET",
+    "credits_earned": 90,
+    "credits_in_progress": 9,
+    "credits_planned": 15,
+    "pacing": "part",
+    "accelerated_pathway": true,
+    "stellic_report_ingested": false,
+    "notes": "Pre-2023 plan; uses BPLogix for substitutions"
+  }
+]
