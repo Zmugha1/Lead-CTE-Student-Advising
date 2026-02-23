@@ -13,7 +13,7 @@ if not students:
     st.warning("No students. Go to Student Intake to add students.")
     st.stop()
 
-options = {f"{s.get('name')} ({s.get('id')})": s for s in students}
+options = {f"{s.get('name') or 'Student'} ({s.get('id', '')})": s for s in students}
 sel_label = st.selectbox("Select student", list(options.keys()))
 student = options.get(sel_label)
 if not student:

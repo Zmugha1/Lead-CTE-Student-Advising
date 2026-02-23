@@ -17,13 +17,26 @@ st.caption("Generate advising notes from Stellic audit (Program Lead format)")
 
 st.warning(SSN_WARNING)
 
-students = st.session_state.get("students", [])
+# Ensure session state initialized (prevent AttributeError)
+if "advising_output" not in st.session_state:
+    st.session_state.advising_output = {}
+if "students" not in st.session_state:
+    st.session_state.students = []
+if "parsed_reports" not in st.session_state:
+    st.session_state.parsed_reports = {}
+
+sid = st.session_state.get("selected_student_id")
+students = st.session_state.students
 if not students:
     st.warning("No students in the system. Go to **Student Intake** to upload a Stellic PDF first.")
     st.stop()
 
-options = {f"{s.get('name')} ({s.get('id')})": s for s in students}
-sel_label = st.selectbox("Select student", list(options.keys()))
+if not sid and students:
+    sid = students[0].get("id")
+    st.session_state.selected_student_id = sid
+
+options = {f"{s.get('name') or 'Student'} ({s.get('id', '')})": s for s in students}
+sel_label = st.selectbox("Select student", list(options.keys()), key="adv_student_sel")
 student = options.get(sel_label)
 if not student:
     st.stop()
@@ -88,11 +101,11 @@ if st.button("Generate Advising Output"):
     plan_rows = build_semester_plan(parsed, student)
     notes = generate_advising_notes(parsed, student)
 
-    st.session_state.advising_output[sid] = {
-        "notes": notes,
-        "plan_rows": plan_rows,
-        "core_status": core_status,
-    }
+    if sid not in st.session_state.advising_output:
+        st.session_state.advising_output[sid] = {}
+    st.session_state.advising_output[sid]["notes"] = notes
+    st.session_state.advising_output[sid]["plan_rows"] = plan_rows
+    st.session_state.advising_output[sid]["core_status"] = core_status
 
 # Display output
 out = st.session_state.get("advising_output", {}).get(sid)

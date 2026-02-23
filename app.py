@@ -11,19 +11,19 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# Initialize session state — use only real ingested data (no sample students)
+# Initialize session state — guarantees dicts/lists exist before indexing
 if "students" not in st.session_state:
     from pathlib import Path
     from utils.io import load_json
     data_dir = Path(__file__).parent / "data"
     data_path = data_dir / "students_data.json"
     st.session_state.students = load_json(data_path) if data_path.exists() else []
-if "selected_student_id" not in st.session_state:
-    st.session_state.selected_student_id = None
 if "parsed_reports" not in st.session_state:
     st.session_state.parsed_reports = {}
 if "advising_output" not in st.session_state:
     st.session_state.advising_output = {}
+if "selected_student_id" not in st.session_state:
+    st.session_state.selected_student_id = None
 
 st.markdown("# BS CTET Student Advising Dashboard")
 st.caption("UW-Stout Career, Technical Education & Training — Lead CTE advising workflow")
@@ -47,7 +47,7 @@ Use the sidebar to navigate:
 # Quick student selector in main view
 students = st.session_state.students
 if students:
-    options = [f"{s.get('name', 'Unknown')} ({s.get('id', '')})" for s in students]
+    options = [f"{s.get('name') or 'Student'} ({s.get('id', '')})" for s in students]
     sel = st.selectbox("Quick select student", options=options, key="quick_sel")
     if sel:
         idx = options.index(sel)

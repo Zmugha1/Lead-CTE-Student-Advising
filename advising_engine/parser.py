@@ -4,7 +4,56 @@ Uses regex + heuristics to handle messy text.
 """
 import re
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Union
+
+
+def extract_student_info_from_pdf(pdf_source: Union[str, Path, Any]) -> Dict[str, Any]:
+    """
+    Extract student name and ID from Stellic degree audit PDF.
+    Returns: {name, student_id, raw_text}
+    """
+    try:
+        try:
+            from pypdf import PdfReader
+        except ImportError:
+            from PyPDF2 import PdfReader
+
+        if hasattr(pdf_source, "read"):
+            reader = PdfReader(pdf_source)
+            filename = getattr(pdf_source, "name", "") or ""
+        else:
+            path = Path(pdf_source)
+            reader = PdfReader(str(path))
+            filename = path.name
+
+        text = ""
+        n = len(reader.pages) if hasattr(reader, "pages") else getattr(reader, "numPages", 0)
+        for i in range(n):
+            page = reader.pages[i] if hasattr(reader, "pages") else reader.getPage(i)
+            t = getattr(page, "extract_text", None) or getattr(page, "extractText", None)
+            text += (t() if t else "") or ""
+
+        # Extract name from text (appears at top of audit)
+        name_match = re.search(r"([A-Z][a-z]+\s+[A-Z][a-z]+)", text[:2000])
+        name = name_match.group(1).strip() if name_match else None
+
+        # Fallback: extract from filename (e.g., "... _ James Frye _ ...")
+        if not name and filename:
+            m = re.search(r"_\s*([A-Z][a-z]+\s+[A-Z][a-z]+)\s*_", filename)
+            name = m.group(1).strip() if m else None
+
+        # Extract student ID (8-digit)
+        id_match = re.search(r"\b\d{8}\b", text)
+        student_id = id_match.group(0) if id_match else None
+
+        return {
+            "name": name or "Unknown Student",
+            "student_id": student_id,
+            "raw_text": text,
+        }
+    except Exception:
+        return {"name": "Unknown Student", "student_id": None, "raw_text": ""}
 
 
 @dataclass
